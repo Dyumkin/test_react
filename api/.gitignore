@@ -1,0 +1,4 @@
+node_modules
+public/documentation
+config/local.js
+npm-debug.log
