@@ -3,7 +3,7 @@ import util from 'util';
 import config from './config/env';
 import app from './config/app';
 
-const debug = require('debug')('rest-api:index');
+const debug = require('debug')('index');
 
 // make bluebird default Promise
 Promise = require('bluebird'); // eslint-disable-line no-global-assign

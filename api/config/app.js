@@ -12,6 +12,7 @@ import config from './env';
 import path from 'path';
 import middlewares from '../middlewares';
 import container from '../components/container';
+const debug = require('debug')('index');
 
 const app = express(),
       errors = container.component('errors');
@@ -21,7 +22,7 @@ if (config.env === 'development') {
 }
 
 // view engine setup
-app.set('views', path.join(`../${__dirname}`, 'views')); //todo fix
+app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'jade');
 
 // parse body params and attache them to req.body
@@ -45,7 +46,7 @@ app.use(cors());
 
 if (app.get('env') !== 'production') {
     // api documentation
-    app.use('/apidoc', express.static(`../${__dirname}/public/documentation/api`)); //todo fix
+    app.use('/apidoc', express.static(path.join(__dirname, '../public/documentation/api')));
 }
 
 // enable detailed API logging in dev env
