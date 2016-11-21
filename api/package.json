@@ -1,9 +1,16 @@
 {
-  "name": "api",
+  "name": "todo-list-api",
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node ./app.js"
+    "start": "gulp serve",
+    "build": "gulp",
+    "lint": "esw *.js server config --color",
+    "lint:watch": "npm run lint -- --watch",
+    "test": "NODE_ENV=test babel-node node_modules/.bin/isparta cover _mocha -- --ui bdd --reporter spec --colors --compilers js:babel-core/register ./test/*.test.js",
+    "test:watch": "npm run test -- --watch",
+    "test:check-coverage": "npm run test && istanbul check-coverage",
+    "report-coverage": "coveralls < ./coverage/lcov.info"
   },
   "dependencies": {
     "bluebird": "2.10.2",
@@ -14,10 +21,55 @@
     "express": "4.13.1",
     "moment": "2.12.0",
     "jade": "1.11.0",
-    "validate.js": "0.9.0"
+    "validate.js": "0.9.0",
+    "express-jwt": "5.1.0",
+    "express-validation": "1.0.1",
+    "express-winston": "2.0.0",
+    "helmet": "3.1.0",
+    "http-status": "^0.2.0",
+    "joi": "9.2.0",
+    "jsonwebtoken": "7.1.9",
+    "method-override": "^2.3.5",
+    "mongoose": "4.6.8",
+    "morgan": "1.7.0",
+    "winston": "2.3.0",
+    "compression": "1.6.2"
   },
   "devDependencies": {
     "grunt": "0.4.5",
-    "grunt-apidoc": "0.11.0"
+    "grunt-apidoc": "0.11.0",
+    "babel-cli": "6.18.0",
+    "babel-core": "6.18.0",
+    "babel-plugin-add-module-exports": "0.2.1",
+    "babel-preset-es2015": "6.16.0",
+    "babel-preset-stage-2": "6.18.0",
+    "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
+    "del": "^2.2.0",
+    "eslint": "3.10.2",
+    "eslint-config-airbnb-base": "7.1.0",
+    "eslint-plugin-import": "1.16.0",
+    "eslint-watch": "2.1.14",
+    "gulp": "3.9.1",
+    "gulp-babel": "6.1.2",
+    "gulp-load-plugins": "^1.2.0",
+    "gulp-newer": "^1.1.0",
+    "gulp-nodemon": "^2.0.6",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-util": "^3.0.7",
+    "isparta": "4.0.0",
+    "mocha": "3.1.2",
+    "run-sequence": "^1.1.5",
+    "supertest": "2.0.1",
+    "supertest-as-promised": "4.0.2"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-2"
+    ],
+    "plugins": [
+      "add-module-exports"
+    ]
   }
 }
