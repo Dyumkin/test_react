@@ -1,6 +1,4 @@
-'use strict';
-
-let BaseError = require('./base');
+import BaseError from  './base';
 
 /**
  * Validation error
@@ -19,4 +17,4 @@ class ValidationError extends BaseError {
   }
 }
 
-module.exports = ValidationError;
+export default ValidationError;

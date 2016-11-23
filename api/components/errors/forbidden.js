@@ -1,6 +1,4 @@
-'use strict';
-
-let BaseError = require('./base');
+import BaseError from  './base';
 
 /**
  * Forbidden
@@ -14,4 +12,4 @@ class Forbidden extends BaseError {
   }
 }
 
-module.exports = Forbidden;
+export default Forbidden;

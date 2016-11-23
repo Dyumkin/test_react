@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Container
  */
@@ -8,8 +6,7 @@ class Container {
   constructor() {
     this.paths = {
       services: '../../services/',
-      repositories: '../../database/repositories/',
-      models: '../../database/models/',
+      models: '../../models/',
       components: '../../components/'
     };
   }
@@ -42,16 +39,6 @@ class Container {
   }
 
   /**
-   * Return repository
-   *
-   * @param repositoryName
-   * @returns {*}
-   */
-  repository(repositoryName) {
-    return this.get('repositories', repositoryName);
-  }
-
-  /**
    * Return component
    *
    * @param componentName
@@ -73,4 +60,4 @@ class Container {
 
 }
 
-module.exports = new Container();
+export default new Container();

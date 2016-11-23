@@ -12,10 +12,11 @@ import config from './env';
 import path from 'path';
 import middlewares from '../middlewares';
 import container from '../components/container';
-const debug = require('debug')('index');
+import passport from 'passport';
 
 const app = express(),
-      errors = container.component('errors');
+      errors = container.component('errors'),
+      debug = require('debug')('index');
 
 if (config.env === 'development') {
     app.use(logger('dev'));
@@ -43,6 +44,9 @@ app.use(middlewares.http);
 
 // enable CORS - Cross Origin Resource Sharing
 app.use(cors());
+
+// Use the passport package in our application
+app.use(passport.initialize());
 
 if (app.get('env') !== 'production') {
     // api documentation

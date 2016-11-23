@@ -1,8 +1,6 @@
-'use strict';
+import ValidationError from '../components/errors/validation';
 
-let ValidationError = require('../components/errors/validation');
-
-module.exports = (error, req, res, next) => {
+export default (error, req, res, next) => {
   let needJSONResponse = !req.headers['accept'] || req.headers['accept'] === 'application/json',
     data;
 

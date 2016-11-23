@@ -1,7 +1,7 @@
-"use strict";
+import express from 'express';
+import container from '../../components/container';
 
-let express = require('express'),
-    router = express.Router();
+const router = express.Router();
 
 /**
  * @api {get} /start return string
@@ -26,4 +26,4 @@ router.get('/', (req, res) => {
   res.success({data: 'Hello world!'});
 });
 
-module.exports = router;
+export default router;

@@ -1,6 +1,4 @@
-'use strict';
-
-let BaseError = require('./base');
+import BaseError from './base';
 
 /**
  * Not found error
@@ -14,4 +12,4 @@ class NotFound extends BaseError {
   }
 }
 
-module.exports = NotFound;
+export default NotFound;

@@ -1,7 +1,3 @@
-'use strict';
-
-var errors = require('../components/errors');
-
 /**
  * Extend response
  *
@@ -9,7 +5,7 @@ var errors = require('../components/errors');
  * @param res
  * @param next
  */
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
 
   /**
    * alias for next callback

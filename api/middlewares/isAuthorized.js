@@ -1,8 +1,3 @@
-"use strict";
-
-//var container = require('../components/container'),
-//    roles = container.service('security/permission').roles;
-
 /**
  * Is authorized middleware
  *
@@ -10,7 +5,7 @@
  * @param res
  * @param next
  */
-module.exports = (req, res, next) => {
+export default (req, res, next) => {
   // let userRepository = container.repository('user'),
   //   accessToken = req.header('X-Access-Token');
   //

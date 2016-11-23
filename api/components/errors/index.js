@@ -1,10 +1,8 @@
-'use strict';
+import ValidationError from './validation';
+import NotFound from './not-found';
+import Forbidden from './forbidden';
 
-let ValidationError = require('./validation'),
-  NotFound = require('./not-found'),
-  Forbidden = require('./forbidden');
-
-module.exports = {
+export default {
   ValidationError,
   NotFound,
   Forbidden
