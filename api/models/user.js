@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import NotFoundError from '../components/errors/not-found';
 import config from '../config/env';
+import uniqueValidator from 'mongoose-unique-validator';
 
 /**
  * User Schema
@@ -10,18 +11,27 @@ import config from '../config/env';
 const UserSchema = new mongoose.Schema({
     email: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, 'Email is required'],
+        unique: true,
+        maxlength: [50, "^The email cannot be longer %{MAXLENGTH} characters"]
     },
     password: {
         type: String,
-        required: true
+        required: [true, 'Password is required'],
+        minlength: [6, "Password must be at least {MINLENGTH} characters"],
+        hide: true
     },
     createdAt: {
         type: Date,
         default: Date.now
     }
 });
+
+UserSchema.plugin(uniqueValidator, {
+    message: 'User with address "{VALUE}" already exists'
+});
+
+UserSchema.plugin(require('mongoose-hidden')());
 
 /**
  * Add your
