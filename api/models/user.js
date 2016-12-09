@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt';
 import NotFoundError from '../components/errors/not-found';
 import config from '../config/env';
 import uniqueValidator from 'mongoose-unique-validator';
+import mongooseRbac from 'mongoose-hrbac';
+import container from '../components/container';
 
 /**
  * User Schema
@@ -32,33 +34,26 @@ UserSchema.plugin(uniqueValidator, {
 });
 
 UserSchema.plugin(require('mongoose-hidden')());
-
-/**
- * Add your
- * - pre-save hooks
- * - validations
- * - virtuals
- */
+UserSchema.plugin(mongooseRbac);
 
 /**
  * Pre-save
  */
 UserSchema.pre('save', function(next) {
-    var user = this;
-
+    let user = this;
     // only hash the password if it has been modified (or is new)
     if (!user.isModified('password')) {
         return next();
     }
 
     // generate a salt
-    bcrypt.genSalt(config.SALT_WORK_FACTOR, function(err, salt) {
+    bcrypt.genSalt(config.SALT_WORK_FACTOR, (err, salt) => {
         if (err) {
             return next(err);
         }
 
         // hash the password using our new salt
-        bcrypt.hash(user.password, salt, function(err, hash) {
+        bcrypt.hash(user.password, salt, (err, hash) => {
             if (err) {
                 return next(err);
             }
@@ -69,12 +64,29 @@ UserSchema.pre('save', function(next) {
         });
     });
 });
+
+/**
+ * After save
+ */
+UserSchema.post('save', function(user) {
+    let Roles = container.service('security/roles'),
+        rbac = container.service('security/rbac');
+
+    if (user.role == null || user.role == Roles.GUEST) {
+        user.setRole(rbac, Roles.USER, (err) => {
+            if (err) {
+                throw err;
+            }
+        });
+    }
+});
+
 /**
  * Methods
  */
 UserSchema.method({
     comparePassword: function (passw, cb) {
-        bcrypt.compare(passw, this.password, function (err, isMatch) {
+        bcrypt.compare(passw, this.password, (err, isMatch) => {
             if (err) {
                 return cb(err);
             }

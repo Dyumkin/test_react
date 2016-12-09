@@ -1,3 +1,7 @@
+import container from '../components/container';
+import Helper from '../components/helper';
+import jwt from 'jwt-simple';
+import config from '../config/env';
 /**
  * Is authorized middleware
  *
@@ -6,23 +10,25 @@
  * @param next
  */
 export default (req, res, next) => {
-  // let userRepository = container.repository('user'),
-  //   accessToken = req.header('X-Access-Token');
-  //
-  // req.user = {roles: [{role: roles.GUEST}]};
-  //
-  // if (accessToken) {
-  //   //todo: get from redis
-  //   userRepository.findUserByCredentialsToken(accessToken).then(user => {
-  //     if (user) {
-  //       req.user = user;
-  //     }
-  //
-  //     return next();
-  //   });
-  // } else {
-  //   return next();
-  // }
+  let token = Helper.getToken(req.headers),
+      Roles = container.service('security/roles'),
+      User = container.model('user');
 
-  return next();
+  req.user = new User({role: Roles.GUEST});
+
+  if (token) {
+    let decoded = jwt.decode(token, config.jwtSecret);
+
+    User.findOne({
+      email: decoded.email
+    }, (err, user) => {
+      if (user) {
+        req.user = user;
+
+        return next();
+      }
+    });
+  } else {
+    return next();
+  }
 };

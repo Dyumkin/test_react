@@ -3,9 +3,10 @@ import container from '../../components/container';
 import ValidationError from '../../components/errors/validation';
 import jwt from 'jwt-simple';
 import config from '../../config/env';
-import passport from 'passport';
 
-const router = express.Router();
+const router = express.Router(),
+      AccessControl = container.service('security/permission'),
+      Roles = container.service('security/roles');
 
 /**
  * @api {post} /security/signup sign up user
@@ -37,7 +38,7 @@ const router = express.Router();
  *          }
  *     }
  */
-router.post('/signup', (req, res) => {
+router.post('/signup', AccessControl.hasRole(Roles.GUEST), (req, res) => {
   let User = container.model('user');
   let newUser = new User({
     email: req.body.email,
@@ -76,7 +77,7 @@ router.post('/signup', (req, res) => {
  *          "errors": ""
  *     }
  */
-router.post('/signin', (req, res) => {
+router.post('/signin', AccessControl.hasRole(Roles.GUEST), (req, res) => {
     let User = container.model('user');
 
     User.findOne({
@@ -102,38 +103,25 @@ router.post('/signin', (req, res) => {
     });
 });
 
-router.post('/me', passport.authenticate('jwt', { session: false}), (req, res) => {
-    let token = getToken(req.headers);
-    if (token) {
-        let decoded = jwt.decode(token, config.jwtSecret);
-        let User = container.model('user');
-        User.findOne({
-            name: decoded.name
-        }, (err, user) => {
-            if (err) throw err;
-
-            if (!user) {
-                return res.error({status: 403, message: 'Authentication failed. User not found.'});
-            } else {
-                res.success(user);
-            }
-        });
-    } else {
-        return res.error({status: 403, message: 'No token provided.'});
-    }
+/**
+ * @api {get} /security/user return authorized user by token
+ * @apiParamExample Request-Example:
+ *      Header:
+ *          Authorization: JWT r447bxsmwrPLpdVAbKTtgaGWEsGPrzNexzQ7xHsuKZRsfAnHPMsJagEbmQ/poAdUMZKBVWUhjTCD3bgisDQB+g==
+ * @apiGroup Security
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *        "success": true
+ *        "user": {
+ *          "email": "user@example.com"
+ *          "createdAt": "2016-11-27T11:55:11.425Z"
+ *          ...
+ *        }
+ *     }
+ */
+router.get('/user', AccessControl.hasRole(Roles.USER), (req, res) => {
+    res.success(req.user ? req.user : {});
 });
-
-function getToken (headers) {
-    if (headers && headers.authorization) {
-        var parted = headers.authorization.split(' ');
-        if (parted.length === 2) {
-            return parted[1];
-        } else {
-            return null;
-        }
-    } else {
-        return null;
-    }
-}
 
 export default router;
