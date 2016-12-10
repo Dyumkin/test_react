@@ -23,10 +23,13 @@ const UserSchema = new mongoose.Schema({
         minlength: [6, "Password must be at least {MINLENGTH} characters"],
         hide: true
     },
-    createdAt: {
-        type: Date,
-        default: Date.now
+    name: {
+        type: String,
+        maxlength: [30, "^Name cannot be longer %{MAXLENGTH} characters"],
+        minlength: [3, "Name must be at least {MINLENGTH} characters"]
     }
+}, {
+    timestamps: true
 });
 
 UserSchema.plugin(uniqueValidator, {
