@@ -11,7 +11,7 @@ import config from '../config/env';
  */
 export default (req, res, next) => {
   let token = Helper.getToken(req.headers),
-      Roles = container.service('security/roles'),
+      { Roles } = container.service('security/roles'),
       User = container.model('user');
 
   req.user = new User({role: Roles.GUEST});

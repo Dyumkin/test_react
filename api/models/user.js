@@ -72,7 +72,7 @@ UserSchema.pre('save', function(next) {
  * After save
  */
 UserSchema.post('save', function(user) {
-    let Roles = container.service('security/roles'),
+    let { Roles } = container.service('security/roles'),
         rbac = container.service('security/rbac');
 
     if (user.role == null || user.role == Roles.GUEST) {

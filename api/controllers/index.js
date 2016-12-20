@@ -9,5 +9,6 @@ require('../config/passport')(passport);
 // Routes
 router.use('/start', require('./actions/start'));
 router.use('/security', require('./actions/security'));
+router.use('/user', require('./actions/users'));
 
 export default router;

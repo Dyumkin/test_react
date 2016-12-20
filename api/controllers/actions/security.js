@@ -6,7 +6,7 @@ import config from '../../config/env';
 
 const router = express.Router(),
       AccessControl = container.service('security/permission'),
-      Roles = container.service('security/roles');
+      { Roles } = container.service('security/roles');
 
 /**
  * @api {post} /security/signup sign up user
@@ -42,7 +42,8 @@ router.post('/signup', AccessControl.hasRole(Roles.GUEST), (req, res) => {
   let User = container.model('user');
   let newUser = new User({
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    name: (req.body.name) ? req.body.name : ''
   });
 
   // save the user

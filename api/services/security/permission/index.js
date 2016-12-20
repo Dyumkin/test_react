@@ -32,6 +32,25 @@ class AccessControl {
   };
 
   /**
+   * Return access checker middleware
+   * @param  {String}  name              Name of role
+   * @returns {Function}
+   */
+  static except(name) {
+    return function (req, res, next) {
+      if (!req.user) {
+        return next(new Forbidden());
+      }
+
+      if (req.user.role == name) {
+        return next(new Forbidden());
+      }
+
+      next();
+    };
+  }
+
+  /**
    * Return middleware function for permission check
    * @param  {String}  action            Name of action
    * @param  {String}  resource          Name of resource
