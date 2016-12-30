@@ -77,7 +77,7 @@ export const initUser = userProps => ({
  *
  * @returns {{type}}
  */
-export const loginUser = (provider, userProps) => ({
+export const loginUser = userProps => ({
   type: types.LOGIN_USER_REQUESTED,
   userProps
 });

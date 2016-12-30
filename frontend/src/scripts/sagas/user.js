@@ -23,15 +23,14 @@ function* initUser(action) {
 }
 
 function* loginUser(action) {
-  const { provider, userProps } = action;
+  const { userProps } = action;
   yield put(actions.setAuthenticating(true));
 
   try {
     const { data } = yield new ApiFetch().post('security/signin', userProps);
-    const { token } = data.token;
 
     yield put(actions.setLoading(true));
-    yield put(actions.setAccessToken(token, userProps.rememberMe));
+    yield put(actions.setAccessToken(data.token, userProps.rememberMe));
     yield put(actions.setUser(data));
     yield put(actions.setLoading(false));
   } catch (exception) {

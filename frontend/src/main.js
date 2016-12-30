@@ -11,7 +11,7 @@ import reducers from './scripts/reducers';
 import saga from './scripts/sagas';
 import App from './scripts/components/app';
 import Home from './scripts/components/home';
-//import SignIn from './scripts/components/sign-in';
+import SignIn from './scripts/components/sign-in';
 import SignUp from './scripts/components/sign-up';
 import NoMatch from './scripts/components/no-match';
 import EventEmitter, {PAGE_WRAPPER_REMOVE_CLASS} from './scripts/utils/event-emitter';
@@ -42,6 +42,7 @@ ReactDOM.render(
             <Route path="/" name="Home" component={ App }>
                 <IndexRoute component={ Home }/>
                 <Route path="sign-up" name="Sign Up" component={ Shield(SignUp, 'guest') }/>
+                <Route path="sign-in" name="Sign In" component={ Shield(SignIn, 'guest') }/>
                 <Route path="*" name="404" component={ NoMatch }/>
             </Route>
         </Router>
