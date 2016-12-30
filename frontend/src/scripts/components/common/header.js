@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Container, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router';
+import Breadcrumbs from 'react-breadcrumbs';
 
 export default class Header extends Component {
     handleLogoutClick = e => {
@@ -13,7 +14,7 @@ export default class Header extends Component {
             return (
                 <Nav className="float-xs-right" navbar>
                     <NavItem>
-                        <NavLink tag={ Link } to="/sign-out" onClick={ this.handleLogoutClick }>Sign Out</NavLink>
+                        <NavLink activeClassName="active" tag={ Link } to="/sign-out" onClick={ this.handleLogoutClick }>Sign Out</NavLink>
                     </NavItem>
                 </Nav>
             );
@@ -21,10 +22,10 @@ export default class Header extends Component {
             return (
                 <Nav className="float-xs-right" navbar>
                     <NavItem>
-                        <NavLink tag={ Link } to="/sign-in">Sign In</NavLink>
+                        <NavLink activeClassName="active" tag={ Link } to="/sign-in">Sign In</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={ Link } to="/sign-up">Sign Up</NavLink>
+                        <NavLink activeClassName="active" tag={ Link } to="/sign-up">Sign Up</NavLink>
                     </NavItem>
                 </Nav>
             );
@@ -34,16 +35,24 @@ export default class Header extends Component {
     render() {
         return(
             <Container className="header">
-                <Navbar color="faded" light>
+                <Navbar color="primary" dark>
                     <NavbarBrand tag={ Link } to="/">TodoList</NavbarBrand>
                     <Nav className="float-xs-left" navbar>
                         <NavItem>
-                            <NavLink tag={ Link } to="/">Home</NavLink>
+                            <NavLink activeClassName="active" tag={ Link } to="/">Home</NavLink>
                         </NavItem>
                     </Nav>
 
                     { this.getAuthLinks() }
                 </Navbar>
+
+                <Breadcrumbs wrapperElement="ol"
+                             itemElement="li"
+                             itemClass="breadcrumb-item"
+                             wrapperClass="breadcrumb"
+                             separator=""
+                             routes={ this.props.routes }
+                             params={ this.props.params } />
             </Container>
         );
     }

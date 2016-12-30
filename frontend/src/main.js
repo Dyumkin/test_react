@@ -15,6 +15,7 @@ import Home from './scripts/components/home';
 import SignUp from './scripts/components/sign-up';
 import NoMatch from './scripts/components/no-match';
 import EventEmitter, {PAGE_WRAPPER_REMOVE_CLASS} from './scripts/utils/event-emitter';
+import './styles/css/style.css';
 
 import {scrollToTop} from './scripts/utils/common-helper';
 
@@ -38,10 +39,10 @@ browserHistory.listen(route => {
 ReactDOM.render(
     <Provider store={ store }>
         <Router history={ browserHistory }>
-            <Route path="/" component={ App }>
+            <Route path="/" name="Home" component={ App }>
                 <IndexRoute component={ Home }/>
-                <Route path="sign-up" component={ Shield(SignUp, 'guest') }/>
-                <Route path="*" component={ NoMatch }/>
+                <Route path="sign-up" name="Sign Up" component={ Shield(SignUp, 'guest') }/>
+                <Route path="*" name="404" component={ NoMatch }/>
             </Route>
         </Router>
     </Provider>,

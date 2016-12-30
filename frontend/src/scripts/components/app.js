@@ -82,6 +82,8 @@ export default class App extends Component {
         <Header
             user={ this.props.user }
             logoutUser={ this.props.userActions.logoutUser }
+            routes={ this.props.routes }
+            params={ this.props.params }
         />
 
         <div id="page-content-wrapper" className="main-content">
