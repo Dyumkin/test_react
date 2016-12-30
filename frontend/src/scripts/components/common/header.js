@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Container, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import { Link } from 'react-router';
 
 export default class Header extends Component {
     handleLogoutClick = e => {
@@ -12,7 +13,7 @@ export default class Header extends Component {
             return (
                 <Nav className="float-xs-right" navbar>
                     <NavItem>
-                        <NavLink href="#" onClick={ this.handleLogoutClick }>Sign Out</NavLink>
+                        <NavLink tag={ Link } to="/sign-out" onClick={ this.handleLogoutClick }>Sign Out</NavLink>
                     </NavItem>
                 </Nav>
             );
@@ -20,10 +21,10 @@ export default class Header extends Component {
             return (
                 <Nav className="float-xs-right" navbar>
                     <NavItem>
-                        <NavLink href="/sign-in">Sign In</NavLink>
+                        <NavLink tag={ Link } to="/sign-in">Sign In</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="/sign-up">Sign Up</NavLink>
+                        <NavLink tag={ Link } to="/sign-up">Sign Up</NavLink>
                     </NavItem>
                 </Nav>
             );
@@ -34,10 +35,10 @@ export default class Header extends Component {
         return(
             <Container className="header">
                 <Navbar color="faded" light>
-                    <NavbarBrand href="/">TodoList</NavbarBrand>
+                    <NavbarBrand tag={ Link } to="/">TodoList</NavbarBrand>
                     <Nav className="float-xs-left" navbar>
                         <NavItem>
-                            <NavLink href="/">Home</NavLink>
+                            <NavLink tag={ Link } to="/">Home</NavLink>
                         </NavItem>
                     </Nav>
 
