@@ -1,0 +1,17 @@
+<ifModule mod_rewrite.c>
+
+  RewriteEngine On
+
+  RewriteBase /
+
+  RewriteCond %{REQUEST_URI} \.(css|js|ico|eot|woff|woff2|ttf|svg|png|jpg|gif)$
+  RewriteRule ^(.*)$ $1 [L,QSA]
+
+  RewriteCond %{QUERY_STRING} ^_escaped_fragment_=(.*)$
+  RewriteRule !^crawler/index\.php$ crawler/index.php [L]
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+
+</ifModule>

@@ -6,6 +6,7 @@ import config from '../config/env';
 import uniqueValidator from 'mongoose-unique-validator';
 import mongooseRbac from 'mongoose-hrbac';
 import container from '../components/container';
+import jwt from 'jwt-simple';
 
 /**
  * User Schema
@@ -29,7 +30,13 @@ const UserSchema = new mongoose.Schema({
         minlength: [3, "Name must be at least {MINLENGTH} characters"]
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true
+    }
 });
 
 UserSchema.plugin(uniqueValidator, {
@@ -84,6 +91,10 @@ UserSchema.post('save', function(user) {
     }
 });
 
+UserSchema.virtual('id').get(function(){
+    return this._id;
+});
+
 /**
  * Methods
  */
@@ -95,6 +106,13 @@ UserSchema.method({
             }
             cb(null, isMatch);
         });
+    },
+
+    getUserWithToken: function () {
+        let user = this.toObject();
+        user.token = 'JWT ' + jwt.encode(this, config.jwtSecret);
+
+        return user;
     }
 });
 

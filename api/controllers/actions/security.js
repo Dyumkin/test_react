@@ -49,7 +49,7 @@ router.post('/signup', AccessControl.hasRole(Roles.GUEST), (req, res) => {
   // save the user
   newUser.save()
       .then((user) => {
-        res.success(user);
+        res.success(user.getUserWithToken());
       })
       .catch(error => {
           res.error(new ValidationError(error.errors));
@@ -91,10 +91,8 @@ router.post('/signin', AccessControl.hasRole(Roles.GUEST), (req, res) => {
             // check if password matches
             user.comparePassword(req.body.password, (err, isMatch) => {
                 if (isMatch && !err) {
-                    // if user is found and password is right create a token
-                    let token = jwt.encode(user, config.jwtSecret);
                     // return the information including token as JSON
-                    res.success({token: 'JWT ' + token});
+                    res.success(user.getUserWithToken());
                 } else {
                     res.error({message: 'Authentication failed. Wrong password.'});
 
