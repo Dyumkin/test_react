@@ -7,7 +7,7 @@ export default class Footer extends Component {
         return(
             <Container className="footer">
                 <Row>
-                    <Col>Footer</Col>
+                    <Col></Col>
                 </Row>
             </Container>
         );
