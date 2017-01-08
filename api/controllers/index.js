@@ -10,5 +10,6 @@ require('../config/passport')(passport);
 router.use('/start', require('./actions/start'));
 router.use('/security', require('./actions/security'));
 router.use('/user', require('./actions/users'));
+router.use('/tasks', require('./actions/tasks'));
 
 export default router;
