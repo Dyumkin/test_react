@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Container, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-import { Link } from 'react-router';
+import { Link, IndexLink } from 'react-router';
 import Breadcrumbs from 'react-breadcrumbs';
 
 export default class Header extends Component {
@@ -32,17 +32,29 @@ export default class Header extends Component {
         }
     };
 
+    getLeftLink = () => {
+
+        return (
+            <Nav className="float-xs-left" navbar>
+                <NavItem>
+                    <NavLink activeClassName="active" tag={ IndexLink } to={'/'}>Home</NavLink>
+                </NavItem>
+                {this.props.user.id &&
+                    <NavItem>
+                        <NavLink activeClassName="active" tag={ Link } to={'/dashboard'}>Dashboard</NavLink>
+                    </NavItem>
+                }
+            </Nav>
+        );
+
+    };
+
     render() {
         return(
             <Container className="header">
                 <Navbar color="primary" dark>
                     <NavbarBrand tag={ Link } to="/">TodoList</NavbarBrand>
-                    <Nav className="float-xs-left" navbar>
-                        <NavItem>
-                            <NavLink activeClassName="active" tag={ Link } to="/">Home</NavLink>
-                        </NavItem>
-                    </Nav>
-
+                    { this.getLeftLink() }
                     { this.getAuthLinks() }
                 </Navbar>
 

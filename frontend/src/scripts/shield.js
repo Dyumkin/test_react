@@ -45,7 +45,7 @@ export default (Page, role) => {
       const { user } = this.props;
 
       if (!user.id && user.isLoading) {
-        return (<h1>USER IS LOADING</h1>);
+        return null;
       }
 
       if (this.state.accessIsGranted) {

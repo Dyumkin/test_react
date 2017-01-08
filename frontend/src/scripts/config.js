@@ -2,7 +2,7 @@ const config = {
   apiAccessTokenKey: 'Authorization',
   sessionAccessTokenKey: 'accessToken',
   apiUrl: '${api-url-webpack}',
-  loginRedirectUrl: '/'
+  loginRedirectUrl: '/dashboard/all'
 
 };
 

@@ -13,6 +13,8 @@ import App from './scripts/components/app';
 import Home from './scripts/components/home';
 import SignIn from './scripts/components/sign-in';
 import SignUp from './scripts/components/sign-up';
+import Dashboard from './scripts/components/dashboard';
+import Tasks from './scripts/components/dashboard/tasks';
 import NoMatch from './scripts/components/no-match';
 import EventEmitter, {PAGE_WRAPPER_REMOVE_CLASS} from './scripts/utils/event-emitter';
 import './styles/css/style.css';
@@ -43,6 +45,10 @@ ReactDOM.render(
                 <IndexRoute component={ Home }/>
                 <Route path="sign-up" name="Sign Up" component={ Shield(SignUp, 'guest') }/>
                 <Route path="sign-in" name="Sign In" component={ Shield(SignIn, 'guest') }/>
+                <Route path="dashboard" name="Dashboard" component={ Shield(Dashboard, '@') }>
+                    <IndexRedirect to="all"/>
+                    <Route path="(:status)" name="Tasks" component={ Shield(Tasks, '@') } />
+                </Route>
                 <Route path="*" name="404" component={ NoMatch }/>
             </Route>
         </Router>
