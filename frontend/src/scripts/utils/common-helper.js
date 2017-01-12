@@ -1,3 +1,5 @@
+import { Status } from '../constants';
+
 /**
  * @param object
  * @returns {string}
@@ -63,4 +65,30 @@ export const getDiffs = (prevObj, nextObj) => {
   }
 
   return diffs;
+};
+
+/**
+ * Return color by status value
+ * @param status
+ * @returns {string}
+ */
+export const getColorByStatus = (status) => {
+  let color = 'secondary';
+
+  switch (status) {
+    case Status.Active:
+      color = 'primary';
+      break;
+    case Status.Overdue:
+      color = 'warning';
+      break;
+    case Status.Cancel:
+      color = 'danger';
+      break;
+    case Status.Done:
+      color = 'success';
+      break;
+  }
+
+  return color;
 };

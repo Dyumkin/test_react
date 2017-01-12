@@ -8,6 +8,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './../../actions/tasks';
 import { Status } from '../../constants';
+import TimeAgo from 'react-timeago';
+import Loader from '../common/loader';
+import { getColorByStatus } from '../../utils/common-helper';
 
 @connect(
     state => ({
@@ -41,47 +44,46 @@ class Tasks extends Component {
         }
     }
 
+    getCards = () => {
+        const { list, total } = this.props.tasks;
+
+        if (list.length == 0) {
+            return (
+                <div>No tasks</div>
+            );
+        }
+
+        return list.length > 0 && list.map((task, key) => {
+                return (
+                    <Card outline color={ getColorByStatus(task.status) } key= { key } >
+                        <CardBlock>
+                            <CardTitle>{ task.title }</CardTitle>
+                            {task.subtitle &&
+                                <CardSubtitle>{ task.subtitle }</CardSubtitle>
+                            }
+                            <CardText>{ task.description }</CardText>
+                            <Button>View</Button>
+                            <CardText>
+                                <small className="text-muted">Created <TimeAgo date={ task.createdAt } /></small>
+                                <small className="text-muted pull-right">Last Updated <TimeAgo date={ task.updatedAt } /></small>
+                            </CardText>
+                        </CardBlock>
+                    </Card>
+                );
+            });
+
+    };
+
     render() {
+        const { isLoading } = this.props.tasks;
+
         return (
-            <CardDeck>
-                <Card>
-                    <CardImg top width="100%"
-                             src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180"
-                             alt="Card image cap"/>
-                    <CardBlock>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This is a wider card with supporting text below as a natural lead-in to additional
-                            content. This content is a little bit longer.</CardText>
-                        <Button>Button</Button>
-                    </CardBlock>
-                </Card>
-                <Card>
-                    <CardImg top width="100%"
-                             src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180"
-                             alt="Card image cap"/>
-                    <CardBlock>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This card has supporting text below as a natural lead-in to additional
-                            content.</CardText>
-                        <Button>Button</Button>
-                    </CardBlock>
-                </Card>
-                <Card>
-                    <CardImg top width="100%"
-                             src="https://placeholdit.imgix.net/~text?txtsize=33&txt=256%C3%97180&w=256&h=180"
-                             alt="Card image cap"/>
-                    <CardBlock>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This is a wider card with supporting text below as a natural lead-in to additional
-                            content. This card has even longer content than the first to show that equal height
-                            action.</CardText>
-                        <Button>Button</Button>
-                    </CardBlock>
-                </Card>
-            </CardDeck>
+            <div>
+                <Loader visible={isLoading}/>
+                <CardDeck>
+                    { this.getCards() }
+                </CardDeck>
+            </div>
         );
     }
 }
