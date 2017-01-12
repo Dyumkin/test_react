@@ -28,6 +28,9 @@ const reducers = {
   [types.RESET_TASKS_LIST]: (state) =>
     state.set('list', []),
 
+  [types.RESET_CURRENT_TASK]: (state) =>
+      state.set('task', null),
+
   [types.SET_CURRENT_TASK]: (state, action) =>
       state.set('task', action.task).set('isLoading', false),
 };

@@ -29,7 +29,7 @@ class Tasks extends Component {
         if (this.props.tasks.list.length === 0) {
             this.props.actions.getTasks(status, this.offset, this.limit)
         }
-    };
+    }
 
     componentWillUnmount() {
         this.props.actions.resetTaskList();

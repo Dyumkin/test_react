@@ -2,7 +2,7 @@ import React, {Component, cloneElement} from 'react';
 import {connect} from 'react-redux';
 import {Container, Row, Col, Button} from 'reactstrap';
 import Menu from './dashboard/menu';
-import {Link} from 'react-router';
+import TaskModal from './dashboard/modal';
 
 @connect(
     state => ({
@@ -19,13 +19,7 @@ class Dashboard extends Component {
                         <h1>Tasks</h1>
                     </Col>
                     <Col xs="6" md={{ size: 2, offset: 6 }}>
-                        <Button
-                            tag={ Link }
-                            to="dashboard/task/add"
-                            className="pull-right"
-                            color="success">
-                            Add Task
-                        </Button>
+                        <TaskModal/>
                     </Col>
                     <div className="clearfix"></div>
                 </Row>

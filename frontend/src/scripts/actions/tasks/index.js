@@ -30,6 +30,10 @@ export const getTask = taskId => ({
   taskId
 });
 
+export const resetCurrentTask = () => ({
+  type: types.RESET_CURRENT_TASK
+});
+
 export const getTasks = (status, offset = 0, limit = 50) => ({
   type: types.GET_TASK_LIST_REQUESTED,
   status,

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Container } from 'reactstrap';
 import Header from './common/header';
 import Footer from './common/footer';
 import { bindActionCreators } from 'redux';
@@ -11,6 +10,8 @@ import EventEmitter, {
   PAGE_WRAPPER_REMOVE_CLASS,
   PAGE_WRAPPER_TOGGLE_CLASS
 } from './../utils/event-emitter';
+
+import Notificator from './common/notificator';
 
 @connect(
     state => ({
@@ -54,20 +55,12 @@ export default class App extends Component {
   initApp = () => {
     console.log('%c Hi there! What\'s up?!', 'background: #444; color: #fb7c05; font-size: 20px');
     this.props.userActions.initUser(this.props.user);
-    //this.props.profileTypesActions.initProfileTypes();
   };
 
   getGlogalComponents = () => {
     return (
       <div>
-        <MediaView />
-        <MediaAttach />
-        <Cropper />
         <Notificator />
-        <Confirmation />
-        <Share />
-        <AddConnection />
-        <RemoveConnection />
       </div>
     );
   };
@@ -75,10 +68,7 @@ export default class App extends Component {
   render() {
     return (
       <div id="wrapper" className={ this.state.classNames.join(' ') }>
-          <Loader visible={ this.props.user.isLoading } fullpage={ true } />
-        {/*<Modal show={ this.props.user.is_new } title="Continue Your Registration" showFooter={ false }>*/}
-          {/*<ProfileTypes inModal={ true } />*/}
-        {/*</Modal>*/}
+        <Loader visible={ this.props.user.isLoading } />
         <Header
             user={ this.props.user }
             logoutUser={ this.props.userActions.logoutUser }
@@ -92,7 +82,7 @@ export default class App extends Component {
 
         <Footer/>
 
-        {/*{ this.getGlogalComponents() }*/}
+        { this.getGlogalComponents() }
       </div>
     );
   }

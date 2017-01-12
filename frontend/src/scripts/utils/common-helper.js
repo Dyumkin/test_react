@@ -37,3 +37,30 @@ export const scrollToTop = duration => {
       ? window.scrollBy(0, step) : clearInterval(interval);
   }, 15);
 };
+
+/**
+ * @param prevObj
+ * @param nextObj
+ * @returns {{}}
+ */
+export const getDiffs = (prevObj, nextObj) => {
+  let diffs = {};
+
+  if (JSON.stringify(prevObj) !== JSON.stringify(nextObj)) {
+    for (const key in nextObj) {
+      let hasDiffs = false;
+
+      if (typeof prevObj[key] === 'object' && typeof nextObj[key] === 'object') {
+        hasDiffs = Object.keys(getDiffs(prevObj[key], nextObj[key])).length > 0;
+      } else if (nextObj[key] !== prevObj[key]) {
+        hasDiffs = true;
+      }
+
+      if (hasDiffs) {
+        diffs[key] = nextObj[key];
+      }
+    }
+  }
+
+  return diffs;
+};
