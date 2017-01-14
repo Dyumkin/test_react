@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {
-    Card, Button, CardImg, CardTitle, CardText, CardDeck,
+    Card, Button, CardTitle, CardText, CardColumns,
     CardSubtitle, CardBlock
 } from 'reactstrap';
 
@@ -11,6 +11,7 @@ import { Status } from '../../constants';
 import TimeAgo from 'react-timeago';
 import Loader from '../common/loader';
 import { getColorByStatus } from '../../utils/common-helper';
+import { Link } from 'react-router';
 
 @connect(
     state => ({
@@ -27,7 +28,7 @@ class Tasks extends Component {
     offset = 0;
 
     componentWillMount() {
-        const status = Number(this.props.params.status) || Status.All;
+        const status = Number(this.props.params.status) || 'all';
 
         if (this.props.tasks.list.length === 0) {
             this.props.actions.getTasks(status, this.offset, this.limit)
@@ -62,10 +63,9 @@ class Tasks extends Component {
                                 <CardSubtitle>{ task.subtitle }</CardSubtitle>
                             }
                             <CardText>{ task.description }</CardText>
-                            <Button>View</Button>
+                            <Button tag={ Link } to={`/task/${task.id}`}>View</Button>
                             <CardText>
-                                <small className="text-muted">Created <TimeAgo date={ task.createdAt } /></small>
-                                <small className="text-muted pull-right">Last Updated <TimeAgo date={ task.updatedAt } /></small>
+                                <small className="text-muted">Last Updated <TimeAgo date={ task.updatedAt } /></small>
                             </CardText>
                         </CardBlock>
                     </Card>
@@ -80,9 +80,9 @@ class Tasks extends Component {
         return (
             <div>
                 <Loader visible={isLoading}/>
-                <CardDeck>
+                <CardColumns>
                     { this.getCards() }
-                </CardDeck>
+                </CardColumns>
             </div>
         );
     }

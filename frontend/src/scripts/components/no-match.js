@@ -1,24 +1,15 @@
 import React, { Component } from 'react';
+import { Container, Row, Col } from 'reactstrap';
 
 class NoMatch extends Component {
 
   render() {
     return (
-      <section className="min-section__wr garages-section">
-        <div className="container">
-          <div className="vertical-center-block">
-            <div className="display-tb-sm display-tb_full-ht">
-              <div className="display-tc-sm">
-                <header className="min-section__header text-center">
-                  <h1 className="min-section__title">404 Not found</h1>
-                  <div className="separator"></div>
-                </header>
-                <div className="min-section__body"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <Container>
+        <Row>
+          <Col><h1 style={{"text-align": "center"}}>404 Not found</h1></Col>
+        </Row>
+      </Container>
     );
   }
 }

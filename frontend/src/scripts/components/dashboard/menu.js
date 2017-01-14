@@ -8,7 +8,7 @@ class Menu extends Component {
     render() {
         return (
             <ListGroup>
-                <ListGroupItem activeClassName="active" tag={ Link } to={`/dashboard/${Status.All}`} action>All</ListGroupItem>
+                <ListGroupItem activeClassName="active" tag={ Link } to={'/dashboard/all'} action>All</ListGroupItem>
                 <ListGroupItem activeClassName="active" tag={ Link } to={`/dashboard/${Status.Active}`} action>Active</ListGroupItem>
                 <ListGroupItem activeClassName="active" tag={ Link } to={`/dashboard/${Status.Overdue}`} action>Overdue</ListGroupItem>
                 <ListGroupItem activeClassName="active" tag={ Link } to={`/dashboard/${Status.Done}`} action>Done</ListGroupItem>

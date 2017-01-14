@@ -1,6 +1,7 @@
 import Promise from 'bluebird';
 import mongoose from 'mongoose';
 import NotFoundError from '../components/errors/not-found';
+import Forbidden from '../components/errors/forbidden';
 import User from './user';
 
 const statuses = ['active', 'done', 'overdue', 'cancel'], //todo move anywhere
@@ -48,13 +49,19 @@ const TaskSchema = new mongoose.Schema({
             type: Date,
             default: Date.now
         },
-        updateAt: {
+        updateAt: { //todo
             type: Date,
             default: Date.now
         }
     }]
 }, {
-    timestamps: true
+    timestamps: true,
+    toObject: {
+        virtuals: true
+    },
+    toJSON: {
+        virtuals: true
+    }
 });
 
 TaskSchema.plugin(require('mongoose-hidden')());
@@ -77,18 +84,25 @@ TaskSchema.statics = {
     /**
      * Get task
      * @param {ObjectId} id - The objectId of task.
-     * @returns {Promise<Task, NotFoundError>}
+     * @param {User} user
+     * @returns {Promise<Task, NotFoundError, Forbidden>}
      */
-    get(id) {
+    get(id, user) {
         return this.findById(id)
             .exec()
             .then((task) => {
-                if (task) {
-                    return task;
+
+                if (!task) {
+                    const err = new NotFoundError('No such task exists!');
+                    return Promise.reject(err);
                 }
 
-                const err = new NotFoundError('No such task exists!');
-                return Promise.reject(err);
+                if (task.user != user.id) {
+                    const err = new Forbidden();
+                    return Promise.reject(err);
+                }
+
+                return task;
             });
     },
 

@@ -1,7 +1,5 @@
 import config from './../config';
 import { serializer } from './common-helper';
-import { resetUser } from './../actions/user';
-import { put } from 'redux-saga/effects';
 
 class ApiFetch {
 
@@ -126,10 +124,6 @@ class ApiFetch {
     return fetch
       .then(response => {
         return response.json().then(json => {
-          if (response.status === 403) {
-            return put(resetUser());
-          }
-
           json.status = response.status;
           return response.ok ? json : Promise.reject(json);
         });

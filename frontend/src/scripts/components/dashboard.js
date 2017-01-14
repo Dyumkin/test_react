@@ -1,8 +1,8 @@
 import React, {Component, cloneElement} from 'react';
 import {connect} from 'react-redux';
-import {Container, Row, Col, Button} from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import Menu from './dashboard/menu';
-import TaskModal from './dashboard/modal';
+import TaskModal from './task/modal';
 
 @connect(
     state => ({
@@ -19,7 +19,7 @@ class Dashboard extends Component {
                         <h1>Tasks</h1>
                     </Col>
                     <Col xs="6" md={{ size: 2, offset: 6 }}>
-                        <TaskModal/>
+                        <TaskModal className="pull-right"/>
                     </Col>
                     <div className="clearfix"></div>
                 </Row>

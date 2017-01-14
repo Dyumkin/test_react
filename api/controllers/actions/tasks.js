@@ -120,4 +120,40 @@ router.post('/', AccessControl.hasRole(Roles.USER), (req, res) => {
         });
 });
 
+/**
+ * @api {get} /tasks/:id? return task details
+ * @apiName Get task by id
+ * @apiGroup Tasks
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *      {
+ *         "success": true,
+ *         "data": {
+ *            "id": 3,
+ *            "created_at": "2016-05-20T14:21:11.008Z",
+ *            "updated_at": "2016-05-23T08:31:27.043Z",
+ *            "title": "task title ",
+ *            "subtitle": "task subtitle",
+ *            "description": "task description long text ...",
+ *            "deadline": "2016-10-12T21:00:00.000Z",
+ *            "status": "active",
+ *            "notes": [ ... ]
+ *         }
+ *       }
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Not Found
+ *     {
+ *          "success": false,
+ *          "errors": { ... }
+ *     }
+ */
+router.get('/:id', AccessControl.hasRole(Roles.USER), (req, res) => {
+    let Task = container.model('task');
+
+    Task.get(req.params.id, req.user)
+        .then(res.success)
+        .catch(res.error);
+});
+
 export default router;

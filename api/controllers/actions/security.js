@@ -1,8 +1,6 @@
 import express from 'express';
 import container from '../../components/container';
 import ValidationError from '../../components/errors/validation';
-import jwt from 'jwt-simple';
-import config from '../../config/env';
 
 const router = express.Router(),
       AccessControl = container.service('security/permission'),

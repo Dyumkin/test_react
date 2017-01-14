@@ -11,8 +11,8 @@ function* addTask(action) {
 
   yield put(actions.setLoading());
   try {
-    yield new ApiFetch().auth().post('tasks', task);
-    browserHistory.push('/dashboard/all'); //todo fix
+    const { data } = yield new ApiFetch().auth().post('tasks', task);
+    browserHistory.push('/task/' + data.id);
     EventEmitter.emit(NOTIFICATOR_ITEM_ADD, {
       item: { type: 'success', title: 'Task was successfully added.' }
     });
@@ -27,12 +27,14 @@ function* updateTask(action) {
 
   yield put(actions.setLoading());
   try {
-    yield new ApiFetch().auth().put('tasks/' + task.id, task);
+    const { data } = yield new ApiFetch().auth().put('tasks/' + task.id, task);
+    yield put(actions.setTask(data));
     EventEmitter.emit(NOTIFICATOR_ITEM_ADD, {
       item: { type: 'success', title: 'Task was successfully updated.' }
     });
   } catch (exception) {
     console.warn(exception);
+    yield put(actions.setLoading(false));
   }
 }
 
@@ -43,13 +45,15 @@ function* removeTask(action) {
   try {
     yield new ApiFetch().auth().delete('tasks/' + taskId);
 
-    yield put(actions.getTasks('all')); //todo fix
-
+    browserHistory.push('/dashboard/all');
     EventEmitter.emit(NOTIFICATOR_ITEM_ADD, {
-      item: { type: 'warning', title: 'Project was successfully deleted.' }
+      item: { type: 'success', title: 'Task was successfully deleted.' }
     });
   } catch (exception) {
     console.warn(exception);
+    EventEmitter.emit(NOTIFICATOR_ITEM_ADD, {
+      item: { type: 'danger', title: 'Task was not deleted.' }
+    });
   }
 }
 
@@ -62,6 +66,9 @@ function* getTask(action) {
     yield put(actions.setTask(data));
   } catch (exception) {
     console.warn(exception);
+    console.log(exception);
+    exception.status === 404 && browserHistory.push('/not-found');
+    exception.status === 403 && browserHistory.push('/forbidden');
     yield put(actions.setLoading(false));
   }
 }

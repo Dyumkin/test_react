@@ -18,6 +18,8 @@ import * as actions from './../../actions/tasks';
 import FormValidator from './../../utils/form-validator';
 import { getDiffs } from './../../utils/common-helper';
 import Loader from '../common/loader';
+import NoteForm from './note-form';
+import {Icon} from 'react-fa';
 
 @connect(
     state => ({
@@ -40,8 +42,11 @@ class TaskModal extends Component {
     };
 
     componentWillMount() {
-        const { id } = this.props;
-        id && this.props.actions.getTask(id);
+        const { task } = this.props;
+
+        if (task) {
+            this.initState = Object.assign(this.initState, task);
+        }
 
         this.state = {
             ...this.initState
@@ -67,8 +72,8 @@ class TaskModal extends Component {
     }
 
     componentWillUnmount() {
-        const { id } = this.props;
-        id && this.props.actions.resetCurrentTask();
+        const { task } = this.props;
+        task && this.props.actions.resetCurrentTask();
     }
 
     handleChangeField = e => {
@@ -87,7 +92,7 @@ class TaskModal extends Component {
 
     handleFormSubmit = e => {
         if (this.formValidator.validate(this.state)) {
-            if (this.props.id) {
+            if (this.props.task) {
                 this.props.actions.updateTask(this.state);
             } else {
                 this.props.actions.addTask(this.state);
@@ -100,9 +105,14 @@ class TaskModal extends Component {
 
     toggle() {
         this.setState({
+            ...this.initState,
             modal: !this.state.modal
         });
     }
+
+    resetForm = () => {
+        this.setState({...this.initState, modal:true});
+    };
 
     getFormGroup = (type, name, label, required = false) => {
         return (
@@ -114,7 +124,7 @@ class TaskModal extends Component {
                         type={ type }
                         name={ name }
                         id={ name }
-                        value={ this.state[name] }
+                        value={ this.state[name] || ''}
                         onChange={ this.handleChangeField }
                         onBlur={ this.validateField }
                         required={required}
@@ -140,21 +150,23 @@ class TaskModal extends Component {
         const { isLoading } = this.props.tasks;
 
         return (
-            <div>
+            <div style={this.props.style}>
                 <Button
                     onClick={this.toggle}
-                    className="pull-right"
-                    color="success">
-                    Add Task
+                    className={this.props.className || ''}
+                    color={this.props.task ? "primary" : "success"}>
+                    {this.props.task ? "Update" : "Add Task"}
                 </Button>
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Add Task</ModalHeader>
+                <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                    <ModalHeader toggle={this.toggle}>{this.props.task ? "Update Task" : "Add Task"}</ModalHeader>
                     <ModalBody>
                         <Loader visible={isLoading}/>
                         { this.getForm() }
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleFormSubmit}>Save</Button>{' '}
+                        <NoteForm className="pull-left" notes={ this.state.notes }/>{' '}
+                        <Button color="primary" onClick={this.handleFormSubmit}>{this.props.task ? "Update" : "Save"} <Icon name="check"/></Button>{' '}
+                        <Button color="secondary" onClick={this.resetForm}>Reset</Button>{' '}
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                     </ModalFooter>
                 </Modal>

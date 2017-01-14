@@ -15,7 +15,9 @@ import SignIn from './scripts/components/sign-in';
 import SignUp from './scripts/components/sign-up';
 import Dashboard from './scripts/components/dashboard';
 import Tasks from './scripts/components/dashboard/tasks';
+import TaskView from './scripts/components/task';
 import NoMatch from './scripts/components/no-match';
+import Forbidden from './scripts/components/forbidden';
 import EventEmitter, {PAGE_WRAPPER_REMOVE_CLASS} from './scripts/utils/event-emitter';
 import './styles/css/style.css';
 
@@ -49,6 +51,9 @@ ReactDOM.render(
                     <IndexRedirect to="all"/>
                     <Route path="(:status)" name="Tasks" component={ Shield(Tasks, '@') } />
                 </Route>
+                <Route path="task/(:id)" name="Task" component={ Shield(TaskView, '@') } />
+                <Route path="not-found" name="404" component={ NoMatch }/>
+                <Route path="forbidden" name="403" component={ Forbidden }/>
                 <Route path="*" name="404" component={ NoMatch }/>
             </Route>
         </Router>
