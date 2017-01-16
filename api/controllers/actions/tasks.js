@@ -156,4 +156,55 @@ router.get('/:id', AccessControl.hasRole(Roles.USER), (req, res) => {
         .catch(res.error);
 });
 
+/**
+ * @api {put} /tasks/:id update task
+ * @apiName Update task
+ * @apiGroup Tasks
+ * @apiParamExample {json} Request-Example:
+ *    {
+ *         "title": "task title ",
+ *         "subtitle": "task subtitle",
+ *         "description": "task description long text ...",
+ *         "deadline": "2016-10-12T21:00:00.000Z",
+ *         "status": "active",
+ *         "notes": [ ... ]
+ *    }
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *          "success": true,
+ *          "data": {
+ *              "id": 3,
+ *              "created_at": "2016-05-20T14:21:11.008Z",
+ *              "updated_at": "2016-05-23T08:31:27.043Z",
+ *              "title": "task title ",
+ *              "subtitle": "task subtitle",
+ *              "description": "task description long text ...",
+ *              "deadline": "2016-10-12T21:00:00.000Z",
+ *              "status": "active",
+ *              "notes": [ ... ]
+ *           }
+ *     }
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Not Found
+ *     {
+ *          "success": false,
+ *          "errors": { ... }
+ *     }
+ */
+router.put('/:id', AccessControl.hasRole(Roles.USER), (req, res) => {
+    let Task = container.model('task');
+
+    Task.get(req.params.id, req.user)
+        .then((task) => {
+            task.multiSet(req.body, ['title', 'subtitle', 'deadline', 'description', 'status']);
+            task.save()
+                .then(res.success)
+                .catch(error => {
+                    res.error(new ValidationError(error.errors));
+                });
+        })
+        .catch(res.error);
+});
+
 export default router;

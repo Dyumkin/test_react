@@ -35,6 +35,7 @@
     "mongoose": "4.6.8",
     "mongoose-hidden": "0.6.4",
     "mongoose-hrbac": "4.0.1",
+    "mongoose-multi-set": "0.1.0",
     "mongoose-unique-validator": "1.0.3",
     "morgan": "1.7.0",
     "passport": "0.3.2",

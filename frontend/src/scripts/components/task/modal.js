@@ -45,7 +45,7 @@ class TaskModal extends Component {
         const { task } = this.props;
 
         if (task) {
-            this.initState = Object.assign(this.initState, task);
+            this.initState = {...task};
         }
 
         this.state = {
@@ -94,6 +94,7 @@ class TaskModal extends Component {
         if (this.formValidator.validate(this.state)) {
             if (this.props.task) {
                 this.props.actions.updateTask(this.state);
+                this.toggle();
             } else {
                 this.props.actions.addTask(this.state);
             }
@@ -104,6 +105,12 @@ class TaskModal extends Component {
     };
 
     toggle() {
+        const { task } = this.props;
+
+        if (task) {
+            this.initState = {...task};
+        }
+
         this.setState({
             ...this.initState,
             modal: !this.state.modal

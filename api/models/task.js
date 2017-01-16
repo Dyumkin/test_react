@@ -65,6 +65,7 @@ const TaskSchema = new mongoose.Schema({
 });
 
 TaskSchema.plugin(require('mongoose-hidden')());
+TaskSchema.plugin(require('mongoose-multi-set'));
 
 /**
  * Methods
