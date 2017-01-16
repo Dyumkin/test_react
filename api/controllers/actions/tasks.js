@@ -207,4 +207,33 @@ router.put('/:id', AccessControl.hasRole(Roles.USER), (req, res) => {
         .catch(res.error);
 });
 
+/**
+ * @api {delete} /tasks/:id delete task
+ * @apiName Delete task
+ * @apiGroup Tasks
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "success": true,
+ *       "data": {}
+ *     }
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 400 Not Found
+ *     {
+ *          "success": false,
+ *          "errors": { ... }
+ *     }
+ */
+router.delete('/:id', AccessControl.hasRole(Roles.USER), (req, res) => {
+    let Task = container.model('task');
+
+    Task.get(req.params.id, req.user)
+        .then((task) => {
+            task.remove()
+                .then(res.success)
+                .catch(res.error);
+        })
+        .catch(res.error);
+});
+
 export default router;

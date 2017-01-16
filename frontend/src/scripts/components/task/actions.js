@@ -33,8 +33,10 @@ export default class TaskActions extends Component {
     }
 
     removeTask = () => {
-        const { task } = this.props;
-        this.props.actions.removeTask(task.id);
+        if (confirm('Are you sure?')) {
+            const { task } = this.props;
+            this.props.actions.removeTask(task.id);
+        }
     };
 
     changeStatus = (e) => {

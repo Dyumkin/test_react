@@ -161,11 +161,11 @@ class TaskModal extends Component {
                 <Button
                     onClick={this.toggle}
                     className={this.props.className || ''}
-                    color={this.props.task ? "primary" : "success"}>
-                    {this.props.task ? "Update" : "Add Task"}
+                    color={this.props.task ? 'primary' : 'success'}>
+                    {this.props.task ? 'Update' : 'Add Task'}
                 </Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>{this.props.task ? "Update Task" : "Add Task"}</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>{this.props.task ? 'Update Task' : 'Add Task'}</ModalHeader>
                     <ModalBody>
                         <Loader visible={isLoading}/>
                         { this.getForm() }
@@ -174,7 +174,7 @@ class TaskModal extends Component {
                         {!this.props.task &&
                             <NoteForm className="pull-left" notes={ this.state.notes }/>
                         }{' '}
-                        <Button color="primary" onClick={this.handleFormSubmit}>{this.props.task ? "Update" : "Save"} <Icon name="check"/></Button>{' '}
+                        <Button color="primary" onClick={this.handleFormSubmit}>{this.props.task ? 'Update' : 'Save'} <Icon name="check"/></Button>{' '}
                         <Button color="secondary" onClick={this.resetForm}>Reset</Button>{' '}
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                     </ModalFooter>
