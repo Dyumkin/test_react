@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Media, Button } from 'reactstrap';
+import { Media, ListGroup, ListGroupItem, Button, ButtonGroup } from 'reactstrap';
 import {Icon} from 'react-fa';
 
 export default class Notes extends Component {
@@ -19,16 +19,33 @@ export default class Notes extends Component {
     getNotes = () => {
         const { notes } = this.state;
 
-        return notes.map((note, key) => {
+        return notes.map((note, index) => {
             return (
-                <Media key={ key }>
-                    <Media body>
-                        <Button size="sm" color="primary"><Icon name="check"/></Button>{' '}
-                        {note.text}
-                    </Media>
-                </Media>
+                <ListGroupItem key={ index }>
+                    {note.text}
+                    <ButtonGroup className="pull-right">
+                        <Button onClick={ this.removeNote.bind(this, index) }
+                                size="sm"
+                                color="primary">
+                            <Icon name="pencil"/>
+                        </Button>{' '}
+                        <Button onClick={ this.updateNote.bind(this, index) }
+                                size="sm"
+                                color="danger">
+                            <Icon name="times"/>
+                        </Button>{' '}
+                    </ButtonGroup>
+                </ListGroupItem>
             );
         });
+    };
+
+    removeNote = () => {
+
+    };
+
+    updateNote = () => {
+
     };
 
     render() {
@@ -38,7 +55,9 @@ export default class Notes extends Component {
                     <Media heading>
                         Notes:
                     </Media>
-                    { this.getNotes() }
+                    <ListGroup>
+                        { this.getNotes() }
+                    </ListGroup>
                 </Media>
             </Media>
         );

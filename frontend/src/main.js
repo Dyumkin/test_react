@@ -20,6 +20,8 @@ import NoMatch from './scripts/components/no-match';
 import Forbidden from './scripts/components/forbidden';
 import EventEmitter, {PAGE_WRAPPER_REMOVE_CLASS} from './scripts/utils/event-emitter';
 import './styles/css/style.css';
+import 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {scrollToTop} from './scripts/utils/common-helper';
 

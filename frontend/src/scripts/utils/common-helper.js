@@ -92,3 +92,18 @@ export const getColorByStatus = (status) => {
 
   return color;
 };
+
+/**
+ * Return object key by value
+ * @param {object} obj
+ * @param {string} val
+ */
+export const getKey = (obj,val) => Object.keys(obj).find(key => obj[key] === val);
+
+/**
+ * Return Status Label
+ * @param {string} status
+ */
+export const getStatusByValue = (status) => {
+  return getKey(Status, status);
+};

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actions from './../actions/tasks';
 import TimeAgo from 'react-timeago';
-import { getColorByStatus } from '../utils/common-helper';
+import { getColorByStatus, getStatusByValue } from '../utils/common-helper';
 import TaskActions from './task/actions';
 import Notes from './task/notes';
 import {
@@ -13,7 +13,6 @@ import {
 
 @connect(
     state =>({
-        user: state.user.toJS(),
         tasks: state.tasks.toJS()
     }),
     dispatch => ({
@@ -51,7 +50,7 @@ class TaskView extends Component {
             <Card outline color={getColorByStatus(task.status)}>
                 <TaskActions task={task}/>
                 <CardBlock>
-                    <CardTitle>{ task.title }</CardTitle>
+                    <CardTitle>{ task.title } <span className="pull-right">Status: {getStatusByValue(task.status)}</span></CardTitle>
                     <CardSubtitle>{ task.subtitle }</CardSubtitle>
                     <CardText>{ task.description }</CardText>
                     <CardText>

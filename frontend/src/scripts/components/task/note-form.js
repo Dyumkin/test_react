@@ -70,13 +70,13 @@ export default class NoteForm extends Component {
 
     handleFormSubmit = e => {
         if (this.formValidator.validate(this.state)) {
-            const { notes, task } = this.props;
+            const { task } = this.props;
 
             if (task) {
                 task.notes.push(this.state);
                 this.props.actions.updateTask(task);
-            } else if (notes) {
-                notes.push(this.state);
+            } else {
+                this.props.onAddNote(this.state);
             }
 
             this.resetForm();

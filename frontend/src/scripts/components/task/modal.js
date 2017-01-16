@@ -118,7 +118,7 @@ class TaskModal extends Component {
     }
 
     resetForm = () => {
-        this.setState({...this.initState, modal:true});
+        this.setState({...this.initState, notes: [], modal:true});
     };
 
     getFormGroup = (type, name, label, required = false) => {
@@ -142,6 +142,44 @@ class TaskModal extends Component {
         );
     };
 
+    handleAddNote(note) {
+        const notes = this.state.notes;
+        notes.push(note);
+
+        this.setState({notes: notes});
+    }
+
+    getNote = () => {
+        return this.state.notes.map((note, index) => {
+            return (
+                <li className="list-group-item" key={ index }>
+                    <span>{ index + 1 }: { note.text }</span>
+                    {<Button type="button"
+                            size="sm"
+                            className="pull-right"
+                            onClick={ this.removeNote.bind(this, index) }
+                            color="danger"><Icon name="times"/>
+                    </Button>}
+                </li>
+            );
+        });
+    };
+
+    removeNote = (index) => {
+        const notes = this.state.notes;
+        notes.splice(index, 1);
+        this.setState({notes: notes });
+    };
+
+    getNotes = () => {
+        return (
+            <FormGroup row>
+                <Label sm={2}>Notes</Label>
+                <Col sm={10}><ul className="list-group">{ this.getNote() }</ul></Col>
+            </FormGroup>
+        );
+    };
+
     getForm() {
         return (
             <Form onSubmit={this.handleFormSubmit} noValidate={true}>
@@ -149,6 +187,7 @@ class TaskModal extends Component {
                 { this.getFormGroup('text', 'subtitle', 'Subtitle')}
                 { this.getFormGroup('text', 'deadline', 'Deadline')}
                 { this.getFormGroup('textarea', 'description', 'Description', true)}
+                { (this.state.notes.length > 0 && !this.props.task ) && this.getNotes() }
             </Form>
         );
     }
@@ -172,7 +211,7 @@ class TaskModal extends Component {
                     </ModalBody>
                     <ModalFooter>
                         {!this.props.task &&
-                            <NoteForm className="pull-left" notes={ this.state.notes }/>
+                            <NoteForm className="pull-left" onAddNote={ this.handleAddNote.bind(this) }/>
                         }{' '}
                         <Button color="primary" onClick={this.handleFormSubmit}>{this.props.task ? 'Update' : 'Save'} <Icon name="check"/></Button>{' '}
                         <Button color="secondary" onClick={this.resetForm}>Reset</Button>{' '}
