@@ -171,7 +171,9 @@ class TaskModal extends Component {
                         { this.getForm() }
                     </ModalBody>
                     <ModalFooter>
-                        <NoteForm className="pull-left" notes={ this.state.notes }/>{' '}
+                        {!this.props.task &&
+                            <NoteForm className="pull-left" notes={ this.state.notes }/>
+                        }{' '}
                         <Button color="primary" onClick={this.handleFormSubmit}>{this.props.task ? "Update" : "Save"} <Icon name="check"/></Button>{' '}
                         <Button color="secondary" onClick={this.resetForm}>Reset</Button>{' '}
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
