@@ -50,6 +50,16 @@ export default class TaskActions extends Component {
         e.preventDefault();
     };
 
+    handleAddNote(note) {
+        const { task } = this.props;
+
+        if (task) {
+            task.notes.push(note);
+            this.props.actions.updateTask({...task});
+        }
+
+    }
+
     getMenuItems = () => {
         const { task } = this.props,
             statuses = Object.values(Status),
@@ -77,7 +87,7 @@ export default class TaskActions extends Component {
         return (
             <CardBlock>
                 <TaskModal style={{display: 'inline-block'}} task={ task }/>{' '}
-                <NoteForm style={{display: 'inline-block'}} task={ task }/>{' '}
+                <NoteForm onAddNote={ this.handleAddNote.bind(this) } style={{display: 'inline-block'}}/>{' '}
                 <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
                     <DropdownToggle caret color={getColorByStatus(task.status)}>
                         Change Status

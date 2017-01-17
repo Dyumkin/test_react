@@ -70,14 +70,8 @@ export default class NoteForm extends Component {
 
     handleFormSubmit = e => {
         if (this.formValidator.validate(this.state)) {
-            const { task } = this.props;
 
-            if (task) {
-                task.notes.push(this.state);
-                this.props.actions.updateTask(task);
-            } else {
-                this.props.onAddNote(this.state);
-            }
+            this.props.onAddNote(this.state);
 
             this.resetForm();
             this.toggle();
@@ -137,3 +131,9 @@ export default class NoteForm extends Component {
         );
     }
 }
+
+NoteForm.propTypes = {
+    onAddNote: React.PropTypes.func,
+    style: React.PropTypes.object,
+    className: React.PropTypes.string
+};

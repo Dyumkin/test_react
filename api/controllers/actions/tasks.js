@@ -197,7 +197,7 @@ router.put('/:id', AccessControl.hasRole(Roles.USER), (req, res) => {
 
     Task.get(req.params.id, req.user)
         .then((task) => {
-            task.multiSet(req.body, ['title', 'subtitle', 'deadline', 'description', 'status']);
+            task.multiSet(req.body, ['title', 'subtitle', 'deadline', 'description', 'status', 'notes']);
             task.save()
                 .then(res.success)
                 .catch(error => {

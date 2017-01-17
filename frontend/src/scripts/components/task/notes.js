@@ -9,7 +9,7 @@ export default class Notes extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        let { notes } = nextProps.notes;
+        let { notes } = nextProps;
 
         if (notes) {
             this.setState({ notes });
@@ -24,12 +24,12 @@ export default class Notes extends Component {
                 <ListGroupItem key={ index }>
                     {note.text}
                     <ButtonGroup className="pull-right">
-                        <Button onClick={ this.removeNote.bind(this, index) }
+                        <Button onClick={ this.removeNote.bind(null, index) }
                                 size="sm"
                                 color="primary">
                             <Icon name="pencil"/>
                         </Button>{' '}
-                        <Button onClick={ this.updateNote.bind(this, index) }
+                        <Button onClick={ this.updateNote.bind(null, index) }
                                 size="sm"
                                 color="danger">
                             <Icon name="times"/>
@@ -40,11 +40,11 @@ export default class Notes extends Component {
         });
     };
 
-    removeNote = () => {
+    removeNote = (index) => {
 
     };
 
-    updateNote = () => {
+    updateNote = (index) => {
 
     };
 
@@ -63,3 +63,7 @@ export default class Notes extends Component {
         );
     }
 }
+
+Notes.propTypes = {
+    notes: React.PropTypes.array
+};

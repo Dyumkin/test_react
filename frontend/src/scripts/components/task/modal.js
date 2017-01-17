@@ -29,7 +29,7 @@ import {Icon} from 'react-fa';
         actions: bindActionCreators(actions, dispatch)
     })
 )
-class TaskModal extends Component {
+export default class TaskModal extends Component {
 
     initState = {
         title: '',
@@ -223,4 +223,8 @@ class TaskModal extends Component {
     }
 }
 
-export default TaskModal;
+NoteForm.propTypes = {
+    task: React.PropTypes.object,
+    style: React.PropTypes.object,
+    className: React.PropTypes.string
+};
