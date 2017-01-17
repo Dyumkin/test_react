@@ -77,14 +77,15 @@ router.post('/signup', AccessControl.hasRole(Roles.GUEST), (req, res) => {
  *     }
  */
 router.post('/signin', AccessControl.hasRole(Roles.GUEST), (req, res) => {
-    let User = container.model('user');
+    let User = container.model('user'),
+        notFoundError= {password: {message: 'Authentication failed. User not found.'}};
 
     User.findOne({
         email: req.body.email
     }, (err, user) => {
 
         if (!user) {
-            res.error({message: 'Authentication failed. User not found.'});
+            res.error(new ValidationError(notFoundError));
         } else {
             // check if password matches
             user.comparePassword(req.body.password, (err, isMatch) => {
@@ -92,7 +93,7 @@ router.post('/signin', AccessControl.hasRole(Roles.GUEST), (req, res) => {
                     // return the information including token as JSON
                     res.success(user.getUserWithToken());
                 } else {
-                    res.error({message: 'Authentication failed. Wrong password.'});
+                    res.error(new ValidationError(notFoundError));
 
                 }
             });

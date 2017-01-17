@@ -113,12 +113,16 @@ export default class TaskModal extends Component {
 
         this.setState({
             ...this.initState,
+            notes: [],
             modal: !this.state.modal
         });
+
+        this.formValidator.clearErrors();
     }
 
     resetForm = () => {
         this.setState({...this.initState, notes: [], modal:true});
+        this.formValidator.clearErrors();
     };
 
     getFormGroup = (type, name, label, required = false) => {

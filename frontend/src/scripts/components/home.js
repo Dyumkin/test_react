@@ -23,7 +23,6 @@ export default class Home extends Component {
         return (
             <p className="lead">
                 <Button tag={ Link } to="/dashboard/active" color="primary">Go to Active Tasks List</Button>{' '}
-                <Button tag={ Link } to="/" color="primary">Create Task</Button>{' '}
             </p>
         );
     };
@@ -41,7 +40,9 @@ export default class Home extends Component {
                             <h1 className="display-3">Hello, world!</h1>
                             <p className="lead">This is a simple Todo application, you can create a simple task and don't forget to do something...</p>
                             <hr className="my-2" />
-                            <p>To start using application you can to sign in or sign up</p>
+                            { !this.props.user.id &&
+                                <p>To start using application you can to sign in or sign up</p>
+                            }
                             { this.getButtons() }
                         </Jumbotron>
                     </Col>
