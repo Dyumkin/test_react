@@ -143,7 +143,7 @@ export default class TaskModal extends Component {
     };
 
     handleAddNote(note) {
-        const notes = this.state.notes;
+        const { notes } = this.state;
         notes.push(note);
 
         this.setState({notes: notes});

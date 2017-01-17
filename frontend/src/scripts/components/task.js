@@ -60,7 +60,7 @@ class TaskView extends Component {
                 </CardBlock>
                 {(task.notes.length > 0) &&
                 <CardBlock>
-                    <Notes notes={task.notes}/>
+                    <Notes task={task}/>
                 </CardBlock>
                 }
             </Card>

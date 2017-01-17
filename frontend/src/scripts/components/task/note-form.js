@@ -34,6 +34,11 @@ export default class NoteForm extends Component {
     };
 
     componentWillMount() {
+        const { note } = this.props;
+
+        if (note) {
+            this.initState = {text: note.text};
+        }
 
         this.state = {
             ...this.initState
@@ -48,6 +53,12 @@ export default class NoteForm extends Component {
     }
 
     toggle() {
+        const { note } = this.props;
+
+        if (note) {
+            this.initState = {text: note.text};
+        }
+
         this.setState({
             ...this.initState,
             modal: !this.state.modal
@@ -71,7 +82,11 @@ export default class NoteForm extends Component {
     handleFormSubmit = e => {
         if (this.formValidator.validate(this.state)) {
 
-            this.props.onAddNote(this.state);
+            if (this.props.note) {
+                this.props.onUpdateNote(this.state);
+            } else {
+                this.props.onAddNote(this.state);
+            }
 
             this.resetForm();
             this.toggle();
@@ -114,15 +129,16 @@ export default class NoteForm extends Component {
                 <Button
                     onClick={this.toggle}
                     className={this.props.className || ''}
-                    color="info">Add note
+                    size={this.props.size || ''}
+                    color={this.props.color || 'info'}>{this.props.children || 'Add note'}
                 </Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                    <ModalHeader toggle={this.toggle}>Add Note</ModalHeader>
+                    <ModalHeader toggle={this.toggle}>{this.props.note ? 'Update Note' : 'Add Note'}</ModalHeader>
                     <ModalBody>
                         { this.getForm('textarea', 'text', 'Note', true) }
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.handleFormSubmit}>Add</Button>{' '}
+                        <Button color="primary" onClick={this.handleFormSubmit}>{this.props.note ? 'Update' : 'Add'}</Button>{' '}
                         <Button color="secondary" onClick={this.resetForm}>Reset</Button>{' '}
                         <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                     </ModalFooter>
@@ -133,7 +149,11 @@ export default class NoteForm extends Component {
 }
 
 NoteForm.propTypes = {
+    note: React.PropTypes.object,
     onAddNote: React.PropTypes.func,
+    onUpdateNote: React.PropTypes.func,
     style: React.PropTypes.object,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    size: React.PropTypes.string,
+    color: React.PropTypes.string
 };
