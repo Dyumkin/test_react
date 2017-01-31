@@ -20,6 +20,8 @@ import { getDiffs } from './../../utils/common-helper';
 import Loader from '../common/loader';
 import NoteForm from './note-form';
 import {Icon} from 'react-fa';
+import Datetime from 'react-datetime';
+import moment from 'moment';
 
 @connect(
     state => ({
@@ -146,6 +148,23 @@ export default class TaskModal extends Component {
         );
     };
 
+    getDateTimeGroup = (name, label) => {
+        return (
+            <FormGroup row color={ this.formValidator.getError(name).style }>
+                <Label for={ name } sm={2}>{ label }</Label>
+                <Col sm={10}>
+                    <Datetime strictParsing utc value={moment(this.state.deadline)}
+                              onChange={this.handleChangeDate.bind(this)}/>
+                    <FormFeedback>{ this.formValidator.getError(name).message }</FormFeedback>
+                </Col>
+            </FormGroup>
+        );
+    };
+
+    handleChangeDate (date) {
+        this.setState({deadline: date});
+    }
+
     handleAddNote(note) {
         const { notes } = this.state;
         notes.push(note);
@@ -189,7 +208,7 @@ export default class TaskModal extends Component {
             <Form onSubmit={this.handleFormSubmit} noValidate={true}>
                 { this.getFormGroup('text', 'title', 'Title', true)}
                 { this.getFormGroup('text', 'subtitle', 'Subtitle')}
-                { this.getFormGroup('text', 'deadline', 'Deadline')}
+                { this.getDateTimeGroup('deadline', 'Deadline')}
                 { this.getFormGroup('textarea', 'description', 'Description', true)}
                 { (this.state.notes.length > 0 && !this.props.task ) && this.getNotes() }
             </Form>
