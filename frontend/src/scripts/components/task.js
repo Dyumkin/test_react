@@ -10,6 +10,7 @@ import {
     Container, Row, Col,
     Card, CardBlock, CardTitle, CardText, CardSubtitle
 } from 'reactstrap';
+import moment from 'moment';
 
 @connect(
     state =>({
@@ -51,7 +52,9 @@ class TaskView extends Component {
                 <TaskActions task={task}/>
                 <CardBlock>
                     <CardTitle>{ task.title } <span className="pull-right">Status: {getStatusByValue(task.status)}</span></CardTitle>
-                    <CardSubtitle>{ task.subtitle }</CardSubtitle>
+                    <CardSubtitle>{ task.subtitle }
+                        {task.deadline && <span className="pull-right text-muted">Deadline: {moment(task.deadline).format('DD-MM-YYYY HH:mm')}</span>}
+                    </CardSubtitle>
                     <CardText>{ task.description }</CardText>
                     <CardText>
                         <small className="text-muted">Created <TimeAgo date={ task.createdAt } /></small>
