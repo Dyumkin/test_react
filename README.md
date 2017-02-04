@@ -4,9 +4,10 @@
 This is small Todo application where you can CRUD tasks. Change task status and add notes.
 
 #### Before Run:
-1. [Install nodejs v6.9.2](https://nodejs.org/en/download/package-manager/)
-2. [Install mongodb](https://docs.mongodb.com/v3.0/tutorial/install-mongodb-on-ubuntu/#install-mongodb)
-3. Run mongodb `sudo service mongod start`
+1. `git clone https://github.com/Dyumkin/test_react.git`
+2. [Install nodejs v6.9.2](https://nodejs.org/en/download/package-manager/)
+3. [Install mongodb](https://docs.mongodb.com/v3.0/tutorial/install-mongodb-on-ubuntu/#install-mongodb)
+4. Run mongodb `sudo service mongod start`
 
 * * *
 #### Run server side:
